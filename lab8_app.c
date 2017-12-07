@@ -125,6 +125,8 @@ void STask(void)           /* tracks statistics */
  	StartSimptris();
 	//I am unsure where we want to create the other two tasks but my initial thought it here for now
 	//To me I think it makes sense to have the arrival task lowest priority....but feel free to change it
+	
+	//For some reason when calling these issues happen......not sure why 
 	//YKNewTask(ArrivalTask,(void *) &ArrivalTaskStk[TASK_STACK_SIZE],3);
 	//YKNewTask(CommTask,(void *) &CommTaskStk[TASK_STACK_SIZE],2);	
 

@@ -4,6 +4,7 @@
 #include "yakk.h"
 //#include "lab6defs.h"
 //#include "lab7defs.h"
+#include "lab8defs.h"
 
 
 extern int KeyBuffer;
@@ -64,17 +65,45 @@ void InterruptKeyboarder(){
 //#include "clib.h"
 //#include "yakk.h"
 
-
+/*************************************************myinth.c for lap 8**************************************/
 int counter = 0;
 extern int KeyBuffer;
+//externing to the piece array made in the task code
+extern piece PieceArray[];
+//taken from clib.s
+extern int NewPieceID;
+extern int NewPieceType;
+extern int NewPieceOrientation;
+extern int NewPieceColumn;
+extern int ScreenBitMap0;
+extern int ScreenBitMap1;
+extern int ScreenBitMap2;
+extern int ScreenBitMap3;
+extern int ScreenBitMap4;
+extern int ScreenBitMap5;
+//externing these as well if we need them here....not sure
+//semaphores for receiving command and touchdown
+extern YKSEM *cmdReceiveSem;
+extern YKSEM *touchdownSem;
 void InterruptTicker();
 void InterruptReseter();
 void InterruptKeyboarder();
+//index for piece array
+int NewPieceArrayIdx;
+extern YKQ *PieceQPtr;
 
+//to increment index for new pieces
+void incNewPieceArrayIdx(){
+	//if there is more space for pieces
+	if((NewPieceArrayIdx + 1) < PIECEQ_SIZE){
+		//increment the index
+		NewPieceArrayIdx++;
+	}else{
+		NewPieceArrayIdx = 0;
+	}
+}
 
 void InterruptTicker(){
-
-
 
 /*
 printNewLine();
@@ -117,9 +146,18 @@ void InterruptKeyboarder(){
 }
 
 void newPiece_handler(){
-
-
-
+	//simply setting up the needed members of our piece struct for the index in the array of pieces
+	PieceArray[NewPieceArrayIdx].pieceID = NewPieceID;
+	PieceArray[NewPieceArrayIdx].type = NewPieceType;
+	PieceArray[NewPieceArrayIdx].orientation = NewPieceOrientation;
+	PieceArray[NewPieceArrayIdx].column = NewPieceColumn;
+	//Now we will check to see if the new piece q is full or not
+	if(YKQPost(PieceQPtr,(void *) &(PieceArray[NewPieceArrayIdx])) == 0){
+		printString("Piece queue is full\n");
+	}else{
+		//else increment the index
+		incNewPieceArrayIdx();
+	}
 }
 
 
@@ -128,10 +166,9 @@ void gameOver_handler(){
 	exit(0);
 }
 
-
+//I think we would need to just pose to the cmd
 void cmdReceived_handler(){
-
-
+	YKSemPost(cmdReceiveSem);
 }
 
 void touchDown_handler(){
