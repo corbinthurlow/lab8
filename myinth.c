@@ -76,13 +76,13 @@ void InterruptTicker(){
 
 
 
-
+/*
 printNewLine();
 counter++; 
 printString("TICK ");
 printInt(counter);
 printNewLine();
-
+*/
 }
 
 void InterruptReseter(){

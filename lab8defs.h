@@ -32,9 +32,9 @@
 #define STRAIGHTPIECE 1
 
 //size for Piece Q size
-#define PIECEQ_SIZE 20
+#define PIECEQ_SIZE 40
 //size of for command Q size
-#define CMDQ_SIZE 20
+#define CMDQ_SIZE 40
 
 
 
