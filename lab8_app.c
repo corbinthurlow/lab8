@@ -661,7 +661,7 @@ void CommTask(void){
 		//}else{
 		//	printString("ERROR!!!!!!! QUEUE NOT EMPTIED\n");
 		//}		
-		
+		YKSemPend(cmdReceiveSem);
 printString("inside and moving forawrd with commTask\n");
 		if (newCmd->cmd == SLIDE) {
 			SlidePiece(newCmd->id, newCmd->param);
@@ -669,13 +669,13 @@ printString("inside and moving forawrd with commTask\n");
 		else {
 			RotatePiece(newCmd->id, newCmd->param);
 		}
-		YKSemPend(cmdReceiveSem);
+		
 	}	
 	
 }
 
 
-
+/*
 //defines for moving
 #define LEFT 0
 #define RIGHT 1
@@ -685,7 +685,7 @@ printString("inside and moving forawrd with commTask\n");
 //define for the function to call
 #define SLIDE 0
 #define ROTATE 1
-
+*/
 
 void ArrivalTask(void){
 	piece* newPiece;		
