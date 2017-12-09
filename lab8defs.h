@@ -16,7 +16,7 @@
 //Seed #1503 - corner piece 2 on right wall
 //Seed #1506 - corner piece 3 on left wall
 
-#define SEED 87532
+#define SEED 1506
 //defines for orientations
 #define FLAT 0
 #define TOWER 1
