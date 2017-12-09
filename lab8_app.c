@@ -4,7 +4,7 @@
 #include "lab8defs.h"
 
                      // contains kernel definitions 
-#define TASK_STACK_SIZE   256         // stack size in words 
+#define TASK_STACK_SIZE   512         // stack size in words 
 #define TRUE 1
 #define FALSE 0
 //task sizes for each task
