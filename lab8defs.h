@@ -5,6 +5,9 @@
 #define RTRIGHT 1
 #define RTLEFT 0
 
+#define SLIDE 0
+#define ROTATE 1
+
 
 //Seed #1247 - straight piece on left wall
 //Seed #1251 - straight piece on right wall
@@ -52,5 +55,5 @@ typedef struct newPiece {
 typedef struct cmdsimp {
 	int id;
 	int cmd;
-	int parameter;
+	int param;
 } simpcmd;

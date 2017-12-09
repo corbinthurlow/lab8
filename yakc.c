@@ -33,6 +33,7 @@ TCBptr oldTask;					//pointer used for keeping track of the old task
 //YKSEM* YKFreeSemList;
 YKSEM YKSemArray[MAX_SEM];
 YKQ YKQArray[MAX_MESSAGE_QUEUES];
+int YKQIndex = 0;
 TCBptr queueWaitListInsert(TCBptr front, TCBptr target);
 TCBptr queueWaitListRemove(TCBptr front, TCBptr target); //removes a tcb when no longer waiting for a queue...will at least alwasy return idle task to be run
 YKEVENT YKEventArray[MAX_EVENTS];
@@ -413,7 +414,7 @@ TCBptr getSemBlockTask(YKSEM *semaphore) {
 
 
 YKQ* YKQCreate(void **start, unsigned int size){
-	YKQ* NewQ = &YKQArray[0];		//the new MsgQ to be created
+	YKQ* NewQ = &YKQArray[YKQIndex++];		//the new MsgQ to be created
 	NewQ->length = size;			//the length of the queue
 	NewQ->MsgQ = start;				//this sets the MsgQ to the address of the starting **
 	NewQ->full = 0;					//set full to zero to begin with

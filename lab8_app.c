@@ -4,6 +4,8 @@
 #include "clib.h"
 #include "yakk.h"                     // contains kernel definitions 
 #define TASK_STACK_SIZE   512         // stack size in words 
+#define TRUE 1
+#define FALSE 0
 //task sizes for each task
 int ArrivalTaskStk[TASK_STACK_SIZE];		//task for incoming pieces
 int CommTaskStk[TASK_STACK_SIZE];			//task for communication with simptris
@@ -656,13 +658,14 @@ void CommTask(void){
 	while(1){
 		printString("starting commTask loop\n");
 		newCmd = (simpcmd*) YKQPend(CmdQPtr);
+		printString("got a command!\n");
 		//if(CmdQPtr == NULL){
 			//printString("EMPTIED THE CMD Q\n");		
 		//}else{
 		//	printString("ERROR!!!!!!! QUEUE NOT EMPTIED\n");
 		//}		
 		YKSemPend(cmdReceiveSem);
-printString("inside and moving forawrd with commTask\n");
+		printString("inside and moving forawrd with commTask\n");
 		if (newCmd->cmd == SLIDE) {
 			SlidePiece(newCmd->id, newCmd->param);
 		}
@@ -689,7 +692,7 @@ printString("inside and moving forawrd with commTask\n");
 
 void ArrivalTask(void){
 	piece* newPiece;		
-	//simpcmd* newCmd;
+	simpcmd* newCmd;
 	//need to create to task to deal with arrival of pieces
 	printString("In arrival task\n");
 	while(1){
@@ -699,29 +702,29 @@ void ArrivalTask(void){
 		printInt(newPiece->pieceID);
 		printNewLine();
 
-		if (newPiece->type == STRAIGHTPIECE){
-			placeStraightPiece(newPiece);
-		}else if(newPiece->type == CORNERPIECE){
-			placeCornerPiece(newPiece);
-		}
+		//if (newPiece->type == STRAIGHTPIECE){
+		//	placeStraightPiece(newPiece);
+		//}else if(newPiece->type == CORNERPIECE){
+		//	placeCornerPiece(newPiece);
+		//}
 		//call placeStraightPiece(piece)
 		//else call placeCornerPiece(piece)
 		
 
-		//newCmd =  &CmdQ[simpCMDIdx];
-		//incCmdIdx();
+		newCmd =  &CmdQ[simpCMDIdx];
+		incCmdIdx();
 		// do some checking and determining which moves to do
 
-		//newCmd->id = newPiece->pieceID;
+		newCmd->id = newPiece->pieceID;
 
-		//newCmd->cmd = LEFT;
-		//newCmd->param = SLIDE;
-		//printString("placing command into queue\n");
-		//YKQPost(CmdQPtr, (void *) newCmd);
+		newCmd->cmd = LEFT;
+		newCmd->param = SLIDE;
+		printString("placing command into queue\n");
+		YKQPost(CmdQPtr, (void *) newCmd);
 
-		//printString("placing 2nd command into queue\n");
-		//newCmd->cmd = RTLEFT;
-		//newCmd->param = ROTATE;
+		printString("placing 2nd command into queue\n");
+		newCmd->cmd = RTLEFT;
+		newCmd->param = ROTATE;
 		//YKQPost(CmdQPtr, (void *) newCmd);	
 	}
 }
@@ -801,7 +804,7 @@ void main(void)
     YKNewTask(STask, (void *) &STaskStk[TASK_STACK_SIZE], 0);
 	//before calling YKRUN set up the queue and semaphores like in other labs
 	//create the semaphore for command received
-	cmdReceiveSem = YKSemCreate(0);
+	cmdReceiveSem = YKSemCreate(1);
 	//create the semaphore for when a block touches down
 	touchdownSem = YKSemCreate(1);
 	//initialize the queue for commands
