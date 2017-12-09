@@ -2,11 +2,11 @@
 #define LEFT 0
 #define RIGHT 1
 //defines for rotating
-#define RTRIGHT 1
-#define RTLEFT 0
+#define RTRIGHT 1 //Clock wise
+#define RTLEFT 0	//counter clock wise
 
-#define SLIDE 0
-#define ROTATE 1
+#define SLIDE 1	//slide 1
+#define ROTATE 0 //rotate 0
 
 
 //Seed #1247 - straight piece on left wall
@@ -16,7 +16,7 @@
 //Seed #1503 - corner piece 2 on right wall
 //Seed #1506 - corner piece 3 on left wall
 
-#define SEED 2050
+#define SEED 87532
 //defines for orientations
 #define FLAT 0
 #define TOWER 1
@@ -45,7 +45,7 @@
 
 //struct for pieces
 typedef struct newPiece {
-	int pieceID;
+	int id;
 	int orientation;
 	int column;
 	int type;
